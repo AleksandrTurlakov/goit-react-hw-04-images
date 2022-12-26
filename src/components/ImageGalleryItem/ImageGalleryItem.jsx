@@ -1,34 +1,29 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from '../Modal/Modal';
 import { ImageGalleryItemImage } from './ImageGalleryItem.styled';
 
-export class ImageGalleryItem extends Component {
-  state = {
-    showModal: false,
-  };
+export const ImageGalleryItem = ({ item }) => {
+  const [showModal, setShowModal] = useState(false);
 
-  openModal = () => this.setState({ showModal: true });
-  closeModal = () => this.setState({ showModal: false });
+  const openModal = () => setShowModal(true);
+  const closeModal = () => setShowModal(false);
 
-  render() {
-    const { item } = this.props;
-    return (
-      <div>
-        <ImageGalleryItemImage
-          src={item.webformatURL}
-          alt={item.tags}
-          onClick={this.openModal}
-        />
-        {this.state.showModal && (
-          <Modal onClose={this.closeModal}>
-            <img src={item.largeImageURL} alt={item.tags} />
-          </Modal>
-        )}
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <ImageGalleryItemImage
+        src={item.webformatURL}
+        alt={item.tags}
+        onClick={openModal}
+      />
+      {showModal && (
+        <Modal onClose={closeModal}>
+          <img src={item.largeImageURL} alt={item.tags} />
+        </Modal>
+      )}
+    </div>
+  );
+};
 
 ImageGalleryItem.propTypes = {
   item: PropTypes.shape({
